@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nursing_family_app/app/app.dart';
 
@@ -9,5 +10,14 @@ void main() {
     expect(find.text('今日状态'), findsOneWidget);
     expect(find.text('快捷入口'), findsOneWidget);
     expect(find.text('AI 家属助手'), findsOneWidget);
+  });
+
+  testWidgets('root tabs keep an IndexedStack shell', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const FamilyApp());
+    await tester.pumpAndSettle();
+
+    expect(find.byType(IndexedStack), findsOneWidget);
   });
 }

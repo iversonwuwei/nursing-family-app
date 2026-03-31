@@ -9,7 +9,7 @@ class SparklineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 44,
+      height: 56,
       child: CustomPaint(painter: _SparklinePainter(points)),
     );
   }
@@ -24,6 +24,14 @@ class _SparklinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (points.isEmpty) {
       return;
+    }
+
+    final gridPaint = Paint()
+      ..color = AppColors.border.withValues(alpha: 0.4)
+      ..strokeWidth = 1;
+    for (var index = 1; index <= 2; index++) {
+      final y = size.height * (index / 3);
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
     }
 
     final minValue = points.reduce((a, b) => a < b ? a : b);
@@ -51,11 +59,22 @@ class _SparklinePainter extends CustomPainter {
       ..close();
 
     final fillPaint = Paint()
-      ..shader = const LinearGradient(
-        colors: [Color(0x334CAF50), Color(0x00FFFFFF)],
+      ..shader = LinearGradient(
+        colors: [
+          AppColors.primary.withValues(alpha: 0.24),
+          AppColors.info.withValues(alpha: 0.04),
+          Colors.transparent,
+        ],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+
+    final glowPaint = Paint()
+      ..color = AppColors.primary.withValues(alpha: 0.24)
+      ..strokeWidth = 8
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
 
     final linePaint = Paint()
       ..color = AppColors.primary
@@ -65,7 +84,16 @@ class _SparklinePainter extends CustomPainter {
       ..strokeJoin = StrokeJoin.round;
 
     canvas.drawPath(fillPath, fillPaint);
+    canvas.drawPath(path, glowPaint);
     canvas.drawPath(path, linePaint);
+
+    final lastX = stepX * (points.length - 1);
+    final lastNormalized = (points.last - minValue) / spread;
+    final lastY = size.height - (lastNormalized * (size.height - 8)) - 4;
+    final dotGlow = Paint()..color = AppColors.primary.withValues(alpha: 0.18);
+    final dotPaint = Paint()..color = AppColors.primary;
+    canvas.drawCircle(Offset(lastX, lastY), 7, dotGlow);
+    canvas.drawCircle(Offset(lastX, lastY), 3.5, dotPaint);
   }
 
   @override

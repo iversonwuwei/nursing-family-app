@@ -16,32 +16,46 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final subtitleWidgets = subtitle == null
-        ? null
-        : <Widget>[
-            const SizedBox(height: 4),
-            Text(
-              subtitle!,
-              style: textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ];
-    final trailingWidgets = trailing == null ? null : <Widget>[trailing!];
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: textTheme.titleLarge),
-              ...?subtitleWidgets,
+              Container(
+                width: 36,
+                height: 6,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(999),
+                  gradient: AppGradients.accent,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+              ),
+              if (subtitle != null) ...[
+                const SizedBox(height: 6),
+                Text(
+                  subtitle!,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
             ],
           ),
         ),
-        ...?trailingWidgets,
+        if (trailing != null) ...[
+          const SizedBox(width: 12),
+          Padding(
+            padding: const EdgeInsets.only(top: 14),
+            child: trailing!,
+          ),
+        ],
       ],
     );
   }

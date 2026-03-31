@@ -44,4 +44,10 @@ flutter test
 
 ## 工程设计说明
 
-详见 docs/family_app_design.md
+本地 docs Markdown 已迁移到 nursing-documents 统一管理，工程设计说明见 ../nursing-documents/docs/ui/family-delivery/app-design.md
+
+已完成的页面级交付说明索引见 ../nursing-documents/docs/ui/family-delivery/index.md
+
+## Harness 交付模板
+
+后续页面、路由、交互与数据流改动，默认先按 ../nursing-documents/docs/ui/family-delivery/frontend-delivery-template.md 补齐范围、用户影响、数据来源、UI 状态、健康信号、验证门禁和回滚路径，再进入实现。
