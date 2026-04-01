@@ -276,6 +276,24 @@ class _ProfileMetricTile extends StatelessWidget {
   final IconData icon;
   final Color color;
 
+  Widget _buildStatusPill(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+      ),
+      child: Text(
+        value,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: color,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FamilyCard(
@@ -296,22 +314,14 @@ class _ProfileMetricTile extends StatelessWidget {
                 ),
                 child: Icon(icon, size: 22, color: color),
               ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: color.withValues(alpha: 0.2)),
-                ),
-                child: Text(
-                  value,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: color,
-                    fontWeight: FontWeight.w800,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: _buildStatusPill(context),
                   ),
                 ),
               ),
@@ -327,6 +337,8 @@ class _ProfileMetricTile extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             detail,
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColors.textSecondary,
               height: 1.45,
