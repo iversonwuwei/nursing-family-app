@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nursing_family_app/app/data/models/family_models.dart';
 import 'package:nursing_family_app/app/data/services/mock_family_service.dart';
+import 'package:nursing_family_app/app/modules/root/root_page.dart';
 import 'package:nursing_family_app/app/routes/app_routes.dart';
 import 'package:nursing_family_app/app/theme/app_theme.dart';
 import 'package:nursing_family_app/app/widgets/family_card.dart';
@@ -926,7 +927,14 @@ class _QuickActionsGrid extends StatelessWidget {
         final action = actions[index];
         return GestureDetector(
           key: ValueKey('home-quick-action-${action.label}'),
-          onTap: () => Get.toNamed(action.route),
+          onTap: () {
+            if (action.label == '预约探视') {
+              Get.find<RootController>().changeIndex(3);
+              return;
+            }
+
+            Get.toNamed(action.route);
+          },
           child: FamilyCard(
             backgroundColor: index.isEven
                 ? AppColors.beige

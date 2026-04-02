@@ -52,20 +52,100 @@ class CareRecord {
 
 class VisitAppointment {
   const VisitAppointment({
+    required this.id,
     required this.date,
     required this.period,
     required this.duration,
     required this.status,
     required this.visitors,
     required this.note,
+    this.companions = const [],
+    this.approvalMode = '人工审核',
   });
 
+  final String id;
   final String date;
   final String period;
   final String duration;
   final String status;
   final int visitors;
   final String note;
+  final List<String> companions;
+  final String approvalMode;
+}
+
+class VisitBookingDraft {
+  const VisitBookingDraft({
+    required this.date,
+    required this.period,
+    required this.duration,
+    required this.visitors,
+    required this.companions,
+    required this.note,
+  });
+
+  final String date;
+  final String period;
+  final String duration;
+  final int visitors;
+  final List<String> companions;
+  final String note;
+}
+
+class VisitRuleCheck {
+  const VisitRuleCheck({
+    required this.title,
+    required this.detail,
+    required this.isBlocking,
+  });
+
+  final String title;
+  final String detail;
+  final bool isBlocking;
+}
+
+class VisitAiBlockedSlot {
+  const VisitAiBlockedSlot({
+    required this.date,
+    required this.period,
+    required this.reason,
+  });
+
+  final String date;
+  final String period;
+  final String reason;
+}
+
+class VisitAiRiskAnalysis {
+  const VisitAiRiskAnalysis({
+    required this.level,
+    required this.summary,
+    required this.recommendation,
+    this.blockedSlots = const [],
+  });
+
+  final String level;
+  final String summary;
+  final String recommendation;
+  final List<VisitAiBlockedSlot> blockedSlots;
+}
+
+class VisitBookingDecision {
+  const VisitBookingDecision({
+    required this.approved,
+    required this.status,
+    required this.summary,
+    required this.checks,
+    this.alternativeSuggestion,
+    this.appointment,
+  });
+
+  final bool approved;
+  final String status;
+  final String summary;
+  final List<VisitRuleCheck> checks;
+  final String? alternativeSuggestion;
+  final VisitAppointment? appointment;
 }
 
 class NotificationItem {
